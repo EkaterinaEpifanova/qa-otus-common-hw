@@ -1,0 +1,1 @@
+# qa-otus-common-hw
