@@ -10,7 +10,7 @@ and saves it to a timestamped TXT file.
 - More scripts coming soon as learning progresses...
 
 ## ✅ Requirements
-- Python 3.7 or higher
+- Python 3.10 or higher
 - WSL or any Unix-based system
 
 To run `ps_report.py` script on WSL or any Unix-based system:

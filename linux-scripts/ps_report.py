@@ -4,11 +4,11 @@ Report from 'ps aux'.
 
 from __future__ import annotations
 
+import argparse
 import subprocess
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 @dataclass
@@ -19,7 +19,7 @@ class Process:
     command: str
 
 
-def run_ps_aux() -> List[str]:
+def run_ps_aux() -> list[str]:
     """Execute 'ps aux'."""
     result = subprocess.run(
         ["ps", "aux"],
@@ -30,9 +30,9 @@ def run_ps_aux() -> List[str]:
     return result.stdout.strip().splitlines()
 
 
-def parse_ps_aux(lines: List[str]) -> List[Process]:
+def parse_ps_aux(lines: list[str]) -> list[Process]:
     """Parse result 'ps aux'."""
-    procs: List[Process] = []
+    procs: list[Process] = []
     if not lines:
         return procs
 
@@ -53,33 +53,30 @@ def parse_ps_aux(lines: List[str]) -> List[Process]:
     return procs
 
 
-def build_report(procs: List[Process]) -> str:
+def build_report(procs: list[Process]) -> str:
     """Build the report."""
     total_processes = len(procs)
     users = sorted({p.user for p in procs})
 
-    # Count processes by user
-    user_counts: Dict[str, int] = {}
+    # Count processes by user and top mem and cpu
+    user_counts: dict[str, int] = {}
+    top_mem: tuple[float, str] = (0.0, "")
+    top_cpu: tuple[float, str] = (0.0, "")
     for p in procs:
         user_counts[p.user] = user_counts.get(p.user, 0) + 1
-
-    # Total
-    total_cpu = sum(p.cpu for p in procs)
-    total_mem = sum(p.mem for p in procs)
-
-    # Top process
-    top_mem: Tuple[float, str] = (0.0, "")
-    top_cpu: Tuple[float, str] = (0.0, "")
-    for p in procs:
         if p.mem > top_mem[0]:
             top_mem = (p.mem, p.command)
         if p.cpu > top_cpu[0]:
             top_cpu = (p.cpu, p.command)
 
+    # Total
+    total_cpu = sum(p.cpu for p in procs)
+    total_mem = sum(p.mem for p in procs)
+
     # Sort users by process
     sorted_user_counts = sorted(user_counts.items(), key=lambda kv: (-kv[1], kv[0]))
 
-    lines: List[str] = []
+    lines: list[str] = []
     lines.append("System Status Report:")
     users_str = ", ".join("'{}'".format(u) for u in users)
     lines.append(f"System users: {users_str}")
@@ -106,7 +103,6 @@ def save_report(report_text: str, directory: Path | None = None) -> Path:
 
 
 def main() -> int:
-    import argparse
     parser = argparse.ArgumentParser(
         description="Collection of report ('ps aux')."
     )
