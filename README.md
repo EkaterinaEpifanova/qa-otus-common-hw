@@ -7,6 +7,7 @@ This repository contains a collection of simple Python scripts created as part o
 - The script `ps_report.py` runs ps aux, parses the output with Python's standard library, 
 prints a system usage report (users, process counts, total CPU/memory, top consumers), 
 and saves it to a timestamped TXT file.
+- The dir `pnv_appium` contains test for pnv.apk
 - More scripts coming soon as learning progresses...
 
 ## ✅ Requirements
