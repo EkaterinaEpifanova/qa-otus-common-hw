@@ -17,6 +17,7 @@ For **each input file** the following is generated:
 - top 3 longest requests (method, URL, IP, duration in ms, date/time);
 - separate JSON report.
 
+- The dir `pnv_appium` contains test for pnv.apk
 - More scripts coming soon as learning progresses...
 
 ## ✅ Requirements
