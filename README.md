@@ -17,6 +17,9 @@ For **each input file** the following is generated:
 - top 3 longest requests (method, URL, IP, duration in ms, date/time);
 - separate JSON report.
 
+- The script `echo_server.py` is HTTP echo server using Python's socket; 
+echoes request method, source, and headers, and honors ?status=CODE
+
 - More scripts coming soon as learning progresses...
 
 ## ✅ Requirements
@@ -31,4 +34,9 @@ python3 ps_report.py
 To run `log_analyzer.py` script :
 ```bash
 python log_analyzer.py access.log
+```
+
+To run echo server
+```bash
+python echo_server.py
 ```
