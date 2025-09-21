@@ -1,10 +1,14 @@
 import os
 import pathlib
+import random
+import string
 import sys
 
 import pymysql
 import pytest
 from pymysql.cursors import DictCursor
+
+from opencart_db.db import DbClient
 
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
@@ -39,3 +43,12 @@ def connection(pytestconfig):
         yield conn
     finally:
         conn.close()
+
+
+@pytest.fixture(scope="session")
+def db_client(connection):
+    yield DbClient(connection)
+
+
+def _rand_str(n=6):
+    return "".join(random.choices(string.ascii_lowercase, k=n))
